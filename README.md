@@ -7,7 +7,31 @@ This guide will help you set up a virtual machine using QEMU/KVM with libvirt th
 - Terraform v1.10.5 installed
 - `terraform-provider-libvirt` ([dmacvicar/libvirt](https://registry.terraform.io/providers/dmacvicar/libvirt/latest)) plugin installed
 
-## Configuration Steps
+## Quick Setup (Automated)
+
+For a quick automated setup, you can use the provided script:
+
+```sh
+# Make the script executable
+chmod +x script/setup-libvirt.sh
+
+# Run the automated setup
+./script/setup-libvirt.sh
+```
+
+This script will:
+- Install QEMU/KVM and libvirt packages
+- Create and configure the default storage pool
+- Set proper permissions
+- Add your user to the libvirt group
+- Download and prepare the Ubuntu Cloud image
+- Provide the absolute path to use in your Terraform configuration
+
+After running the script, log out and log back in for group membership changes to take effect.
+
+## Manual Configuration Steps
+
+If you prefer to set up everything manually, follow these steps:
 
 ### 1. Enable Libvirt and Adjust Permissions
 To avoid permission denied errors when using Terraform with libvirt, modify the `/etc/libvirt/qemu.conf` file:
@@ -76,6 +100,18 @@ If you need to remove the VM, use:
 ```sh
 terraform destroy -auto-approve
 ```
+
+## Setup Script
+
+The repository includes an automated setup script (`script/setup-libvirt.sh`) that handles the initial configuration of your system for libvirt and QEMU/KVM. This script:
+
+- **Installs Dependencies**: Automatically installs `qemu-kvm`, `libvirt-daemon-system`, and `virt-manager`
+- **Configures Storage Pool**: Creates and configures the default storage pool at `/var/lib/libvirt/images/default`
+- **Sets Permissions**: Ensures proper ownership and permissions for the storage pool
+- **Downloads Cloud Image**: Downloads the Ubuntu Jammy (22.04) cloud image and resizes it by +50G
+- **User Configuration**: Adds your user to the libvirt group for proper access
+
+The script provides the absolute path of the downloaded image, which you can use directly in your `variables.tf` file.
 
 ## Acknowledgment
 Special thanks to **Molla Salehi** (GitHub: [mm3906078](https://github.com/mm3906078)) for contributions and guidance.
