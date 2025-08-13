@@ -19,7 +19,7 @@ fi
 # 1. Install prerequisites
 echo -e "${YELLOW}[+] Installing prerequisites...${NC}"
 sudo apt update
-sudo apt install -y qemu-kvm libvirt-daemon-system virt-manager
+sudo apt install -y qemu-kvm libvirt-daemon-system virt-manager genisoimage
 
 # 2. Create and start the default storage pool if it doesn't exist
 POOL_NAME="default"
