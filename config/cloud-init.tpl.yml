@@ -1,0 +1,35 @@
+#cloud-config
+ssh_pwauth: true
+chpasswd:
+  list: |
+    root:${root_password}
+  expire: false
+disable_root: false
+
+hostname: ${vm_hostname}
+fqdn: ${vm_hostname}.${domain}
+
+apt:
+  sources_list: |
+    deb http://mirror.arvancloud.ir/ubuntu jammy main restricted
+    deb http://mirror.arvancloud.ir/ubuntu jammy-updates main restricted
+    deb http://mirror.arvancloud.ir/ubuntu jammy universe
+    deb http://mirror.arvancloud.ir/ubuntu jammy-updates universe
+    deb http://mirror.arvancloud.ir/ubuntu jammy multiverse
+    deb http://mirror.arvancloud.ir/ubuntu jammy-updates multiverse
+    deb http://mirror.arvancloud.ir/ubuntu jammy-backports main restricted universe multiverse
+    deb http://mirror.arvancloud.ir/ubuntu jammy-security main restricted
+    deb http://mirror.arvancloud.ir/ubuntu jammy-security universe
+    deb http://mirror.arvancloud.ir/ubuntu jammy-security multiverse
+
+packages:
+  - qemu-guest-agent
+
+runcmd:
+  - [ sed, -i, -e, '/^#PermitRootLogin .*\$/a PermitRootLogin yes', /etc/ssh/sshd_config ]
+  - systemctl enable qemu-guest-agent
+  - systemctl start qemu-guest-agent
+  - systemctl restart sshd
+
+ssh_authorized_keys:
+  - ${ssh_keys}

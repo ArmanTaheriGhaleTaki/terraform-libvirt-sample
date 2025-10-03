@@ -2,3 +2,4 @@
 terraform.tfstate
 terraform.tfstate.backup
 jammy-server-cloudimg-amd64.img
+.terraform/*
