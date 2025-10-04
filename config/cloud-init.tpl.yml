@@ -10,18 +10,13 @@ hostname: ${vm_hostname}
 fqdn: ${vm_hostname}.${domain}
 
 apt:
+  preserve_sources_list: false
   sources_list: |
-    deb http://mirror.arvancloud.ir/ubuntu jammy main restricted
-    deb http://mirror.arvancloud.ir/ubuntu jammy-updates main restricted
-    deb http://mirror.arvancloud.ir/ubuntu jammy universe
-    deb http://mirror.arvancloud.ir/ubuntu jammy-updates universe
-    deb http://mirror.arvancloud.ir/ubuntu jammy multiverse
-    deb http://mirror.arvancloud.ir/ubuntu jammy-updates multiverse
-    deb http://mirror.arvancloud.ir/ubuntu jammy-backports main restricted universe multiverse
-    deb http://mirror.arvancloud.ir/ubuntu jammy-security main restricted
-    deb http://mirror.arvancloud.ir/ubuntu jammy-security universe
-    deb http://mirror.arvancloud.ir/ubuntu jammy-security multiverse
-
+        Types: deb
+        URIs: http://mirror.arvancloud.ir/ubuntu
+        Suites: noble noble-updates noble-backports
+        Components: main universe restricted multiverse
+        Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
 packages:
   - qemu-guest-agent
 
