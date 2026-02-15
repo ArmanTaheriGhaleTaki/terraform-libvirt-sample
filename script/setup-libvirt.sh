@@ -5,13 +5,19 @@ set -e
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# Ensure script is run with sudo privileges available
+if ! sudo -v > /dev/null 2>&1; then
+  echo -e "${YELLOW}[!] This script requires sudo privileges.${NC}"
+  exit 1
+fi
+
 # 0. Check if KVM is supported
-echo -e "${YELLOW}[+] install cpu-checker for kvm-ok ...${NC}"
+echo -e "${YELLOW}[+] install cpu-checker for kvm-ok...${NC}"
 sudo apt update
 sudo apt install -y cpu-checker
 
 echo -e "${YELLOW}[+] Checking KVM support...${NC}"
-if ! kvm-ok > /dev/null 2>&1; then
+if ! sudo kvm-ok > /dev/null 2>&1; then
   echo -e "${YELLOW}[!] KVM is not supported or not enabled in BIOS. Exiting.${NC}"
   exit 1
 fi
