@@ -15,7 +15,7 @@ inputs = {
     name       = "airgap"
     autostart  = true
     mode       = "none"
-    domain     = "test.com"
+    domain     = "armondy.ir"
     addresses  = ["10.200.12.0/24"]
     dns_hosts = [
       { hostname = "test01", ip = "85.85.85.85" },
