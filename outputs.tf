@@ -8,12 +8,4 @@
 #     }
 #   }
 # }
-# To generate an actual SSH config file, add this:
-resource "local_file" "ansible_inventory" {
-  filename = "${path.root}/ssh_config"
-  content  = templatefile("${path.module}/templates/ssh_config.tpl", {
-    vms            = var.vms
-    libvirt_domain = libvirt_domain.domain_ubuntu
-    ifaces         = iface.network_name
-  })  
-}
+
