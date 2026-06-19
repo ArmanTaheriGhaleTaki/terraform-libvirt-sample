@@ -1,5 +1,13 @@
-.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
-jammy-server-cloudimg-amd64.img
-.terraform/*
+# Terraform
+**/.terraform/
+**/.terraform.lock.hcl
+
+# Terraform state
+**/*.tfstate
+**/*.tfstate.*
+
+# Terragrunt
+**/.terragrunt-cache/
+
+# Local images
+*.img
