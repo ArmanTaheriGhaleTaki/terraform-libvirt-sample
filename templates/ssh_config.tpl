@@ -3,6 +3,8 @@
 Host kvm-${vm.vm_hostname}-${iface.network_name}
     HostName ${iface.addresses[0]}
     User root
-
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    LogLevel ERROR
 %{ endfor ~}
 %{ endfor ~}
