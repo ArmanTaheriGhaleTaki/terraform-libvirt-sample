@@ -86,24 +86,22 @@ dynamic "network_interface" {
   # autostart = true
 }
 # To generate an actual SSH config file, add this:
-resource "local_file" "ansible_inventory" {
-  filename = "${path.root}/ssh_config"
-  file_permission = "0664"
-  content = templatefile("${path.module}/templates/ssh_config.tpl", {
+resource "null_resource" "ansible_inventory" {
+  triggers = {
+    content = sha1(templatefile("${path.module}/templates/ssh_config.tpl", {
+      domains = libvirt_domain.domain_ubuntu
+      vms     = var.vms
+    }))
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+cat <<EOF > ${path.root}/ssh.config
+${templatefile("${path.module}/templates/ssh_config.tpl", {
   domains = libvirt_domain.domain_ubuntu
   vms     = var.vms
-  })  
+})}
+EOF
+EOT
+  }
 }
-# resource "local_file" "ansible_inventor" {
-#   filename = "${path.root}/ssh_config"
-#  file_permission = "0664"
-#   content = join("\n\n", flatten([
-#     for vm_name, vm in var.vms : [
-#       for iface in libvirt_domain.domain_ubuntu[vm_name].network_interface : <<-EOT
-# Host kvm-${vm.vm_hostname}-${iface.network_name}
-#     HostName ${iface.addresses[0]}
-#     User root
-# EOT
-#     ]
-#   ]))
-# }
