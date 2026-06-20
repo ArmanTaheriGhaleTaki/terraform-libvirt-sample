@@ -52,6 +52,10 @@ variable "vms" {
     memory      = number #GB
     vcpu        = number
     disk        = number #GB
+    extra_disks = optional(list(object({
+      name = string
+      size = number #GB
+    })), [])
     networks    = list(object({
       network_name = string
       mac          = optional(string)
@@ -64,6 +68,10 @@ variable "vms" {
       memory      = 4
       vcpu        = 4
       disk        = 30
+      extra_disks = [
+        { name = "data1", size = 10 },
+        { name = "data2", size = 10 }
+      ]
       networks = [
         { network_name = "internal" },
         { network_name = "default" }
