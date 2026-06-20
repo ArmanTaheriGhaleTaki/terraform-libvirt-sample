@@ -41,22 +41,10 @@ resource "libvirt_volume" "extra_disks" {
     }
   ]...)
 
-  name   = "${each.key}-extra.qcow2"
+  name   = "${each.value.vm_name}-${each.value.name}.qcow2"
   pool   = "default"
   format = "qcow2"
   size   = each.value.size * 1024 * 1024 * 1024
-}
-locals {
-  extra_disks = merge([
-    for vm_name, vm in var.vms : {
-      for disk in vm.extra_disks :
-      "${vm_name}-${disk.name}" => {
-        vm_name = vm_name
-        name    = disk.name
-        size    = disk.size
-      }
-    }
-  ]...)
 }
 # Create a VM (domain) for each VM configuration
 resource "libvirt_cloudinit_disk" "commoninit" {
@@ -107,9 +95,9 @@ dynamic "network_interface" {
   }
 dynamic "disk" {
   for_each = {
-    for k, v in local.extra_disks :
+    for k, v in libvirt_volume.extra_disks :
     k => v
-    if v.vm_name == each.key
+    if startswith(k, "${each.key}-")
   }
 
   content {
