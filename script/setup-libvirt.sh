@@ -119,4 +119,5 @@ else
   echo -e "${YELLOW}[+] Skipping automatic update. Please manually update variables.tf with the path above.${NC}"
 fi
 
-echo -e "${YELLOW}[+] Done. Please log out and log back in for group membership changes to take effect.${NC}"
+newgrp
+echo -e "${YELLOW}[+] Done.${NC}"

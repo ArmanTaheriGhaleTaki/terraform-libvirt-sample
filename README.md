@@ -27,8 +27,6 @@ This script will:
 - Download and prepare the Ubuntu Cloud image
 - Provide the absolute path to use in your Terraform configuration
 
-After running the script, log out and log back in for group membership changes to take effect.
-
 ## Manual Configuration Steps
 
 If you prefer to set up everything manually, follow these steps:
