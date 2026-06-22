@@ -58,7 +58,9 @@ resource "libvirt_cloudinit_disk" "commoninit" {
 # Create a VM (domain) for each VM configuration
 resource "libvirt_domain" "domain_ubuntu" {
   for_each = var.vms
-
+  cpu {
+    mode = "host-passthrough"
+  }
   name   = each.value.vm_hostname
   memory = each.value.memory * 1024
   vcpu   = each.value.vcpu
